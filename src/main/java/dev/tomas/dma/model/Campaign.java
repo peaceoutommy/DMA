@@ -11,10 +11,10 @@ public class Campaign {
     private Integer id;
 
     @NotNull
-    @Size(min = 3, max = 100)
+    @Size(min = 3, max = 100, message = "Name must be at least 3 characters long")
     private String name;
 
     @NotNull
-    @Size(min = 10, max = 2000)
+    @Size(min = 10, max = 2000, message = "Description must be at least 10 characters long")
     private String description;
 }
