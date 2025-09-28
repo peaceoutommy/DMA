@@ -8,6 +8,5 @@ public interface CampaignService {
     List<Campaign> findAll();
     Campaign findById(Integer id);
     Campaign save(Campaign campaign);
-    Campaign update(Integer id, Campaign campaign);
-    void deleteById(Integer id);
+    Integer deleteById(Integer id);
 }

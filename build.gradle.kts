@@ -38,6 +38,7 @@ dependencies {
     implementation("org.apache.commons:commons-collections4:4.4")
     implementation("org.mapstruct:mapstruct:1.6.3")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 }
 
 tasks.withType<Test> {
