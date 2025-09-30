@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Currency;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,4 +18,5 @@ public class CampaignEntity {
     private String name;
     private String description;
     private Integer company_id;
+    private Currency goal;
 }
