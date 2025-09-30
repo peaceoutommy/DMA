@@ -26,6 +26,7 @@ public class CampaignServiceImpl implements CampaignService {
         for (CampaignEntity entity : campaignRepo.findAll()) {
             campaigns.add(CampaignMapper.INSTANCE.convertToModel(entity));
         }
+        //hello :)
         return campaigns;
     }
 
