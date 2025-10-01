@@ -41,6 +41,7 @@ class CampaignServiceTests {
         var result = campaignService.findById(1);
 
         assertEquals("Test", result.getName());
+
     }
 
     @Test
