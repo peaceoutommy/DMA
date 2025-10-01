@@ -5,10 +5,10 @@ import dev.tomas.dma.repository.CampaignRepo;
 import dev.tomas.dma.service.implementation.CampaignServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -17,17 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class CampaignServiceTests {
 
     @Mock
     private CampaignRepo campaignRepo;
+
     @InjectMocks
     private CampaignServiceImpl campaignService;
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void testFindById_found() {
@@ -41,7 +38,6 @@ class CampaignServiceTests {
         var result = campaignService.findById(1);
 
         assertEquals("Test", result.getName());
-
     }
 
     @Test
@@ -50,5 +46,4 @@ class CampaignServiceTests {
 
         assertThrows(ResponseStatusException.class, () -> campaignService.findById(1));
     }
-
 }
