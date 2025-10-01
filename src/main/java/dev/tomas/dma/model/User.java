@@ -25,4 +25,16 @@ public class User {
 
     @NotNull
     private String address;
+
+    @NotNull
+    private String firstName;
+
+    @NotNull
+    private String lastName;
+
+    @NotNull
+    private String middleNames;
+
+    @NotNull
+    private String username;
 }

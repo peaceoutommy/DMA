@@ -1,11 +1,12 @@
 package dev.tomas.dma.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "company")
-public class CompanyEntity extends UserEntity {
+public class CompanyEntity {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String companyName;
     private String registrationNumber;
     private String taxId;

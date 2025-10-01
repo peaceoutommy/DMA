@@ -3,7 +3,6 @@ package dev.tomas.dma;
 import dev.tomas.dma.model.entity.CampaignEntity;
 import dev.tomas.dma.repository.CampaignRepo;
 import dev.tomas.dma.service.implementation.CampaignServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

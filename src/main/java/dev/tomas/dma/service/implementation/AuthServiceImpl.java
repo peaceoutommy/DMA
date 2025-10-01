@@ -1,13 +1,13 @@
 package dev.tomas.dma.service.implementation;
 
-import dev.tomas.dma.dto.DonorRegisterRequest;
+import dev.tomas.dma.dto.UserRegisterRequest;
 import dev.tomas.dma.dto.AuthRequest;
-import dev.tomas.dma.model.Company;
-import dev.tomas.dma.model.Manager;
-import dev.tomas.dma.model.entity.DonorEntity;
+import dev.tomas.dma.model.User;
+import dev.tomas.dma.model.entity.UserEntity;
 import dev.tomas.dma.repository.AuthRepo;
 import dev.tomas.dma.service.AuthService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +15,31 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private AuthRepo authRepo;
+    private JWTService jwtService;
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public String login(AuthRequest authRequest) {
+        UserEntity user = authRepo.findByUsernameOrEmail(authRequest.getUsername(), authRequest.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return "";
+        if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+        return jwtService.generateToken(user.getEmail());
     }
 
     @Override
-    public String registerDonor(DonorRegisterRequest registerRequest) {
-        DonorEntity entity = new DonorEntity();
+    public String register(UserRegisterRequest registerRequest) {
+
+        if (registerRequest.getEmail() != null && authRepo.findByEmail(registerRequest.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already exists");
+        }
+        if (registerRequest.getUsername() != null && authRepo.findByUsername(registerRequest.getUsername()).isPresent()) {
+            throw new RuntimeException("Username already exists");
+        }
+
+        UserEntity entity = new UserEntity();
         entity.setEmail(registerRequest.getEmail());
         entity.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         entity.setPhoneNumber(registerRequest.getPhoneNumber());
@@ -37,20 +51,7 @@ public class AuthServiceImpl implements AuthService {
 
         authRepo.save(entity);
 
-        return "";
-
-        // RETURN JWT
-
-    }
-
-    @Override
-    public String registerCompany(Company company) {
-        return "";
-    }
-
-    @Override
-    public String registerManager(Manager manager) {
-        return "";
+        return jwtService.generateToken(registerRequest.getEmail());
     }
 
     @Override

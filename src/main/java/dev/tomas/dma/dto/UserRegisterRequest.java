@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class DonorRegisterRequest {
+public class UserRegisterRequest {
     @NotNull
     private String firstName;
     @NotNull

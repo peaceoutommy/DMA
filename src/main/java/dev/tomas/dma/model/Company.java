@@ -1,8 +1,7 @@
 package dev.tomas.dma.model;
 
-import dev.tomas.dma.model.entity.UserEntity;
-
-public class Company extends UserEntity {
+public class Company {
+    private Integer id;
     private String companyName;
     private String registrationNumber;
     private String taxId;
