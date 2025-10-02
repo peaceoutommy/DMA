@@ -26,7 +26,7 @@ public class AuthServiceImpl implements AuthService {
         if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
-        return jwtService.generateToken(user.getEmail());
+        return jwtService.generateToken(user.getId());
     }
 
     @Override
@@ -49,9 +49,9 @@ public class AuthServiceImpl implements AuthService {
         entity.setMiddleNames(registerRequest.getMiddleNames());
         entity.setUsername(registerRequest.getUsername());
 
-        authRepo.save(entity);
+        var createdUser = authRepo.save(entity);
 
-        return jwtService.generateToken(registerRequest.getEmail());
+        return jwtService.generateToken(createdUser.getId());
     }
 
     @Override
