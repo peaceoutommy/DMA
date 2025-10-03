@@ -1,10 +1,15 @@
 package dev.tomas.dma.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Currency;
 
 @Entity
@@ -14,9 +19,20 @@ import java.util.Currency;
 @Table(name="campaign")
 public class CampaignEntity {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @NotNull
     private Integer id;
+
+    @Size(min = 3, max = 100, message = "Name must be at least 3 characters long")
     private String name;
+
+    @NotNull
+    @Size(min = 10, max = 2000, message = "Description must be at least 10 characters long")
     private String description;
-    private Integer company_id;
-    private Currency goal;
+
+    @NotNull
+    private Integer companyId;
+
+    @NotNull
+    @Min(1) @Max(999999999)
+    private BigDecimal fundGoal;
 }

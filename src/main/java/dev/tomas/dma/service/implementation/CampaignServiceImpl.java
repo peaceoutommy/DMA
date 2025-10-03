@@ -1,5 +1,7 @@
 package dev.tomas.dma.service.implementation;
 
+import dev.tomas.dma.dto.CampaignCreateRequest;
+import dev.tomas.dma.dto.CampaignUpdateRequest;
 import dev.tomas.dma.mapper.CampaignMapper;
 import dev.tomas.dma.model.Campaign;
 import dev.tomas.dma.model.entity.CampaignEntity;
@@ -38,20 +40,44 @@ public class CampaignServiceImpl implements CampaignService {
         }
     }
 
-    /**
-     * Save can be used for both CREATE and UPDATE operations
-     */
     @Override
-    public Campaign save(Campaign campaign) {
-        if (Objects.isNull(campaign.getName()) || campaign.getName().isEmpty()) {
+    public Campaign save(CampaignCreateRequest request) {
+        if (Objects.isNull(request.getName()) || request.getName().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Campaign name can't be empty");
         }
-        if (Objects.isNull(campaign.getDescription()) || campaign.getDescription().isEmpty()) {
+        if (Objects.isNull(request.getDescription()) || request.getDescription().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Campaign description can't be empty");
         }
 
-        CampaignEntity toSave = CampaignMapper.INSTANCE.convertToEntity(campaign);
+        CampaignEntity toSave = new CampaignEntity();
+        toSave.setName(request.getName());
+        toSave.setDescription(request.getDescription());
+        toSave.setCompanyId(request.getCompanyId());
+        toSave.setFundGoal(request.getFundGoal());
+
         return CampaignMapper.INSTANCE.convertToModel(campaignRepo.save(toSave));
+    }
+
+    @Override
+    public Campaign update(CampaignUpdateRequest request) {
+        CampaignEntity original = campaignRepo.findById(request.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Campaign not found"));
+
+        if (request.getName() != null && !request.getName().isEmpty()) {
+            original.setName(request.getName());
+        }
+        if (request.getDescription() != null && !request.getDescription().isEmpty()) {
+            original.setDescription(request.getDescription());
+        }
+        if (request.getCompanyId() != null) {
+            original.setCompanyId(request.getCompanyId());
+        }
+        if (request.getFundGoal() != null) {
+            original.setFundGoal(request.getFundGoal());
+        }
+
+        CampaignEntity updated = campaignRepo.save(original);
+        return CampaignMapper.INSTANCE.convertToModel(updated);
     }
 
     @Override

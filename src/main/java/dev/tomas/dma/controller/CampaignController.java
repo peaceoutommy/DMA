@@ -1,5 +1,7 @@
 package dev.tomas.dma.controller;
 
+import dev.tomas.dma.dto.CampaignCreateRequest;
+import dev.tomas.dma.dto.CampaignUpdateRequest;
 import dev.tomas.dma.model.Campaign;
 import dev.tomas.dma.service.CampaignService;
 import jakarta.validation.Valid;
@@ -29,16 +31,13 @@ public class CampaignController {
     }
 
     @PostMapping
-    public Campaign create(@RequestBody @Valid Campaign campaign) {
-        return campaignService.save(campaign);
+    public Campaign create(@RequestBody @Valid CampaignCreateRequest request) {
+        return campaignService.save(request);
     }
 
-    @PutMapping("/{id}")
-    public Campaign save(@PathVariable Integer id, @RequestBody @Valid Campaign campaign) {
-        if (!Objects.equals(id, campaign.getId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Path id (" + id + ") does not match campaign id (" + campaign.getId() + ")");
-        }
-        return campaignService.save(campaign);
+    @PutMapping()
+    public Campaign save(@RequestBody @Valid CampaignUpdateRequest request) {
+        return campaignService.update(request);
     }
 
     @DeleteMapping("/{id}")

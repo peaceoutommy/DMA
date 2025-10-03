@@ -1,25 +1,16 @@
-package dev.tomas.dma.model;
+package dev.tomas.dma.dto;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Value;
+import jakarta.validation.constraints.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
-
-@AllArgsConstructor
-@Getter
-public class Campaign {
-    private Integer id;
-
+@Data
+public class CampaignCreateRequest {
     @NotNull
     @Size(min = 3, max = 100, message = "Name must be at least 3 characters long")
     private String name;
 
-    @NotNull
+    @NotBlank
     @Size(min = 10, max = 2000, message = "Description must be at least 10 characters long")
     private String description;
 
